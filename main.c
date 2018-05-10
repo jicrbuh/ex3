@@ -7,6 +7,7 @@
 #define BLOCK_HEIGHT 3
 #define BLOCK_LENGTH 3
 #define SEED 3//change!!
+//check git
 //void parseString(int* parsedCommand, char userInput[]);
 //int findFirstToken(char userCommmand[]);
 void printBoard(int **board,int blockLength,int blockHeight);
