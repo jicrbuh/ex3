@@ -20,13 +20,16 @@ int backtracking(int blockLength, int blockHeight, int** board, int** solvedBoar
 	createInitMatrix3d(blockLength, blockHeight, tried, rows, triedBoard);
 	copyBoardMinus(blockLength, blockHeight, board,solvedBoard);
 	while (counter<dim*dim) {
+		printf("round1\n");
 		if (solveCell(counter, blockLength,blockHeight, board, solvedBoard,triedBoard, direction,det) == -1) {
+			printf("going back/n");
 			int row=counter/dim;
 			int col=counter%dim;
 			solvedBoard[row][col] = 0;
 			counter--;
 			direction =0;
 			if (counter<0) {
+				printf("counter<0/n");
 				return -1;
 			}
 		}
@@ -69,15 +72,18 @@ int solveCell(int counter,int blockLength, int blockHeight, int** board, int** s
 	}
 	else {
 		if (checkIfTriedAll(options, triedBoard, row, col, blockLength, blockHeight)==1) {
-			printf("-1");
+			printf("tried all failed\n");
 			return -1;
 		}
 		int try = randomizedOption(blockLength,blockHeight,options);
+		printf("try = %d\n",try);
 		while (triedBoard[row][col][try-1]==1) {
+			printf("in loop\n");
 			try = randomizedOption(blockLength,blockHeight,options);
 		}
 		solvedBoard[row][col] = try;
 		triedBoard[row][col][try-1] = 1;
+		return 1;
 	}
 	return -1;
 }
@@ -88,27 +94,28 @@ int randomizedOption(int blockLength, int blockHeight,int* options){
 	int dim =blockLength*blockHeight;
 	int random;
 	for (i=1;i<dim+1;i++){
-		if(options[i]==1){
+		if(options[i]==0){
 			counter++;
 		}
 	}
 	if (counter == 1) {
 		for (i=1;i<dim+1;i++) {
-			if (options[i]==1) {
+			if (options[i]==0) {
 				return i;
 			}
 		}
 	}
-	random = rand() % counter;
+	random = rand() % (counter);
+	printf("random = %d\n",random);
 	for (i=1;i<dim+1;i++) {
-		if(options[i]==1) {
-			random--;
+		if(options[i]==0) {
 			if (random == 0) {
 				return i;
 			}
-
+			random--;
 		}
 	}
+printf("problem\n");
 return -1;
 }
 // 1 - no available options
@@ -116,7 +123,7 @@ int checkIfTriedAll(int* options, int*** triedBoard, int row, int col, int block
 	int i;
 	int dim = blockLength*blockHeight;
 	for (i=0 ; i<dim ; i++) {
-		if (options[i] != triedBoard[row][col][i]) {
+		if (options[i+1] != triedBoard[row][col][i]) {
 			return 0;
 		}
 	}
