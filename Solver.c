@@ -1,25 +1,25 @@
 #include <stdio.h>
 #include <time.h>
-int solveCell(int counter,int blockLength, int blockHeight, int** board, int** solvedBoard, int direction);
+#include <stdlib.h>
+
+int solveCell(int counter,int blockLength, int blockHeight, int** board, int** solvedBoard, int*** triedBoard, int direction,int det);
 int* cellOptions(int row, int col, int blockLength, int blockHeight, int** board);
 void copyBoardMinus(int blockLength,int blockHeight, int **origBoard, int **copyBoard);
-int checkIfTriedAll(int* options, int*** triedBoard, int row, int col, blockLength, blockHeight);
+int checkIfTriedAll(int* options, int*** triedBoard, int row, int col, int blockLength, int blockHeight);
+void createInitMatrix3d(int blockLength,int blockHeight, int *tried, int **rows, int ***triedBoard);
 
 
 int backtracking(int blockLength, int blockHeight, int** board, int** solvedBoard,int det){
 	int counter=0;
 	int direction=1;
 	int dim = blockLength*blockHeight;
-	int *tried;
-	int **triedRows;
-	int ***triedBoard;
-	triedBoard = calloc(dim*dim*dim,sizeof(int));
-	triedRows = calloc(dim*dim, sizeof(int*));
-	tried = calloc(dim, sizeof(int**));
-	createInitMatrix3d(blockLength,blockHeight, triedRows, triedBoard,tried);
+	int ***triedBoard = calloc(dim , sizeof(int **));
+	int **rows = calloc(dim * dim , sizeof(int *));
+	int *tried = calloc(dim * dim * dim , sizeof(int));
+	createInitMatrix3d(blockLength, blockHeight, tried, rows, triedBoard);
 	copyBoardMinus(blockLength, blockHeight, board,solvedBoard);
 	while (counter<dim*dim) {
-		if (solveCell(counter, blockLength,blockHeight, board, solvedBoard,direction,det) == -1) {
+		if (solveCell(counter, blockLength,blockHeight, board, solvedBoard,triedBoard, direction,det) == -1) {
 			int row=counter/dim;
 			int col=counter%dim;
 			solvedBoard[row][col] = 0;
@@ -37,7 +37,7 @@ int backtracking(int blockLength, int blockHeight, int** board, int** solvedBoar
 	return 1;
 }
 
-int solveCell(int counter,int blockLength, int blockHeight, int** board, int** solvedBoard, int*** triedBoard, int direction, int det) {
+int solveCell(int counter,int blockLength, int blockHeight, int** board, int** solvedBoard,int*** triedBoard, int direction, int det) {
 
 	int dim = blockLength*blockHeight;
 	int row=counter/dim;
