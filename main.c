@@ -3,6 +3,11 @@
 #include <stdlib.h>
 #include <ctype.h>
 #include "SPBufferset.h"
+#include "Parser.h"
+#include "Solver.h"
+#include "Game.h"
+#include "MainAux.h"
+
 #include <time.h>
 #define BLOCK_HEIGHT 3
 #define BLOCK_LENGTH 3
