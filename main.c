@@ -47,7 +47,7 @@ int main() {
 		printf("%d\n",set(1,0,3,3,board,1));
 		printf("%d\n",set(1,0,3,3,board,4));
 
-		printf("backtracking: %d\n",backtracking( BLOCK_LENGTH,  BLOCK_HEIGHT,board,solvedBoard,1));
+		printf("backtracking: %d\n",backtracking( BLOCK_LENGTH,  BLOCK_HEIGHT,board,solvedBoard,0));
 		printBoard(board,3,3);
 		printBoard(solvedBoard,3,3);
 		free(solvedBoard);

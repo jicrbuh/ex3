@@ -7,6 +7,7 @@ int* cellOptions(int row, int col, int blockLength, int blockHeight, int** board
 void copyBoardMinus(int blockLength,int blockHeight, int **origBoard, int **copyBoard);
 int checkIfTriedAll(int* options, int*** triedBoard, int row, int col, int blockLength, int blockHeight);
 void createInitMatrix3d(int blockLength,int blockHeight, int *tried, int **rows, int ***triedBoard);
+int randomizedOption(int blockLength, int blockHeight,int* options);
 
 
 int backtracking(int blockLength, int blockHeight, int** board, int** solvedBoard,int det){
@@ -68,6 +69,7 @@ int solveCell(int counter,int blockLength, int blockHeight, int** board, int** s
 	}
 	else {
 		if (checkIfTriedAll(options, triedBoard, row, col, blockLength, blockHeight)==1) {
+			printf("-1");
 			return -1;
 		}
 		int try = randomizedOption(blockLength,blockHeight,options);
@@ -107,9 +109,10 @@ int randomizedOption(int blockLength, int blockHeight,int* options){
 
 		}
 	}
+return -1;
 }
 // 1 - no available options
-int checkIfTriedAll(int* options, int*** triedBoard, int row, int col, blockLength, blockHeight) {
+int checkIfTriedAll(int* options, int*** triedBoard, int row, int col, int blockLength, int blockHeight) {
 	int i;
 	int dim = blockLength*blockHeight;
 	for (i=0 ; i<dim ; i++) {

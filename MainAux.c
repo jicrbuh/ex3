@@ -56,23 +56,13 @@ void createInitMatrix(int blockLength,int blockHeight, int *rows, int **board) {
 
 }
 //stores the previous random tries: board[i][j][k] = 1 if k+1 was previously tried.
-void createInitMatrix3d(int blockLength,int blockHeight, int **rows, int ***board, int *tried) {
+void createInitMatrix3d(int blockLength,int blockHeight, int *tried, int **rows, int ***triedBoard) {
 	int dim = blockLength*blockHeight;
-	int i=0;
-	int k=0;
-	for (i=0 ; i<dim ; i++) {
-		board[i] = rows + i*dim;
-		for (k=0 ; k<dim ; k++) {
-			rows[k] = tried + k*dim;
-		}
-	}
-	int j=0;
-	for (i=0 ; i<dim ; i++) {
-		for (j=0 ; j<dim ; j++) {
-			for (k=0 ; k<dim ; k++) {
-				board[i][j][k] = 0;
-			}
-		}
+	for (int i = 0; i < dim; i++) {
+		triedBoard[i] = rows + i * 3;
+		for (size_t j = 0; j < 3; j++) {
+			triedBoard[i][j] = tried + i * dim * dim + j * dim;
+	    }
 	}
 
 }
